@@ -17,7 +17,6 @@
   (let ((r6rs-form `(library ,@(append-map translate (cdr r7rs-form)))))
     (with-output-to-file "srfi-minimal-html.sls"
       (lambda ()
-        (display "#!r6rs\n")
         (display ";; Auto-generated\n")
         (display "#!r6rs\n")
         (pretty-print r6rs-form)))))
