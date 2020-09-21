@@ -13,7 +13,7 @@
         (let* ((code (char->integer char))
                (safe? (case char
                         ((#\& #\< #\> #\") #f)
-                        (else (<= #x20 cc #x7e)))))
+                        (else (<= #x20 code #x7e)))))
           (cond (safe?
                  (write-char char))
                 (else
