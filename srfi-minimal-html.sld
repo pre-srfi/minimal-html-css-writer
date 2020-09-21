@@ -10,17 +10,17 @@
 
     (define (write-generic-ml sxml)
       (define (write-char-safely char)
-        (let* ((cc (char->integer char))
-               (ok? (case char
-                      ((#\& #\< #\> #\") #f)
-                      (else (<= #x20 cc #x7e)))))
-          (cond (ok?
+        (let* ((code (char->integer char))
+               (safe? (case char
+                        ((#\& #\< #\> #\") #f)
+                        (else (<= #x20 cc #x7e)))))
+          (cond (safe?
                  (write-char char))
                 (else
                  (write-char #\&)
                  (write-char #\#)
                  (write-char #\x)
-                 (write-string (string-upcase (number->string cc 16)))
+                 (write-string (string-upcase (number->string code 16)))
                  (write-char #\;)))))
       (define (write-string-safely string)
         (string-for-each write-char-safely string))
@@ -41,7 +41,7 @@
                (write-symbol-safely (car sxml))
                (let ((body (cond ((and (pair? (cdr sxml))
                                        (pair? (cadr sxml))
-                                       (eq? '@ (car (cadr sxml))))
+                                       (eq? '@ (caadr sxml)))
                                   (for-each write-attribute (cdadr sxml))
                                   (cddr sxml))
                                  (else (cdr sxml)))))
