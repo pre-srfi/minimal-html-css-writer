@@ -8,54 +8,97 @@ Early Draft
 
 # Abstract
 
-??? abstract, preferably shorter than 200 words. Please outline the
-need for, and design of, the proposal.
+This SRFI supplies a minimal set of procedures to output web pages and
+XML files from S-expressions.
 
 # Issues
 
-??? Optional section that may point out things to be resolved. This
-will not appear in the final SRFI.
+Which S-expression representation of CSS to use?
+
+Should we indent the output?
+
+Should output be UTF-8 or ASCII-only?
 
 # Rationale
 
-??? detailed rationale. This should be 200-500 words long. Please
-explain why the proposal should be incorporated as a standard feature
-in Scheme implementations. List related standards and SRFIs, including
-dependencies, conflicts, and replacements. If there are other
-standards which this proposal will replace or with which it will
-compete, please explain why the present proposal is a substantial
-improvement.
+## Prior art (XML/HTML)
 
-## Survey of prior art
+Oleg SXML
 
-GitHub's version of Markdown can make tables. For example:
+Racket sxml, txexpr
 
-| System        | Procedure | Signature                 |
-| ------------- |:---------:| ------------------------- |
-| System A      | `jumble`  | _list_ _elem_             |
-| System B      | `bungle`  | _elem_ _list_             |
-| System C      | `frob`    | _list_ _elem_ _predicate_ |
+## Prior art (CSS)
+
+css-expr
 
 # Specification
 
-??? detailed specification. This should be detailed enough that a
-conforming implementation could be completely created from this
-description.
+## Supported SXML syntax
+
+`(tag body ...)`
+
+`(tag (@ (attribute1 value1) (attribute value2) ...) body ...)`
+
+Comment syntax?
+
+## Supported CSS syntax
+
+## Library (XML/HTML)
+
+(**write-html** _sxml_)
+
+(**write-xml** _sxml_)
+
+These procedures write XML-like languages.
+
+Any element with an empty body is written as `<foo />`.
+
+ASCII control characters and non-ASCII characters are written as
+`#&xABCD;` escapes.
+
+HTML output is prefixed with `<!doctype html>`.
+
+XML output is prefixed with `<?xml version="1.0" encoding="us-ascii"?>`.
+
+The output is not indented. An external tool like HTML Tidy can do
+that.
+
+## Library (CSS)
+
+(**write-css** _css-expr_)
+
+## Library (color)
+
+(**color-name->rgb** _string_) -> _rgb_
+
+Get the RGB value for a known CSS color name.
+
+(**rgb->css-color** _rgb_) -> _string_
+
+Turn an RGB color into a CSS string.
+
+* Known color names are used when they match.
+* `#xaabbcc` is turned into `#abc`.
+* `#xabcdef` is turned into `#abcdef`.
+
+(**rgb->hsl** _rgb_) -> _hsl_
+
+(**hsl->rgb** _hsl_) -> _rgb_
+
+Convert a color between RGB and HSL. HSL is easy to make brighter or
+dimmer.
+
+# Examples
+
+example.scm
 
 # Implementation
 
-??? explanation of how it meets the sample implementation requirement
-(see process), and the code, if possible, or a link to it Source for
-the sample implementation.
-
 # Acknowledgements
-
-??? Give credits where credits is due.
 
 # References
 
-??? Optional section with links to web pages, books and papers that
-helped design the SRFI.
+http://okmij.org/ftp/Scheme/SXML.html
 
 # Copyright
 
