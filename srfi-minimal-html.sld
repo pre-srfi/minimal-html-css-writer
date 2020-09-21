@@ -41,7 +41,7 @@
                (write-symbol-safely (car sxml))
                (let ((body (cond ((and (pair? (cdr sxml))
                                        (pair? (cadr sxml))
-                                       (eq? '@ (caadr sxml)))
+                                       (eq? '|@| (caadr sxml)))
                                   (for-each write-attribute (cdadr sxml))
                                   (cddr sxml))
                                  (else (cdr sxml)))))
